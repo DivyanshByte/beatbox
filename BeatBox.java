@@ -1,13 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author byte
- */
 import java.awt.*;
 import javax.swing.*;
 import javax.sound.midi.*;
@@ -29,10 +19,7 @@ public class BeatBox {
     Track track;
     JFrame theFrame;
     Vector<String> listdata ;
-    JList l;
-    /**
-     * @param args the command line arguments
-     */ 
+    JList l; 
     String[] instrumentNames  = {"Bass Drum", "Closed Hi-Hat", "Open Hi-Hat", "Acostic Snare", "Crash Cymbal",
                                   "Hand Clap", "High Tom", "Hi Bongo", "Maracas", "Whistle", "Low Conga", 
                                    "Cowbell", "Vibraslap", "Low-mid Tom", "High Agogo", "Open Hi Conga"};
