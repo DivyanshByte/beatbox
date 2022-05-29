@@ -71,7 +71,7 @@ public class BeatBox {
         buttonBox.add(s);
         
         listdata = new Vector<String>();
-         l = new JList();
+        l = new JList();
         l.addListSelectionListener(new ListListener());
         l.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JScrollPane sp = new JScrollPane(l);
@@ -126,7 +126,7 @@ public class BeatBox {
 
     public void setList() {
         listdata.add(0,"Grand (256)");
-        listdata.add(1, "1 Line");
+        /*listdata.add(1, "1 Line");
         listdata.add(2, "2 Line");
         listdata.add(3,"3 Line");
         listdata.add(4,"4 Line");
@@ -141,7 +141,8 @@ public class BeatBox {
         listdata.add(13,"13 Line");
         listdata.add(14,"14 Line");
         listdata.add(15,"15 Line");
-        listdata.add(16,"16 Line");
+        listdata.add(16,"16 Line");*/
+        listdata.addAll(Arrays.asList(instrumentNames));
         
        
     }
@@ -294,12 +295,6 @@ public class BeatBox {
                 else{
                     checkboxState[i] = false;
                 }
-
-              
-               
-                
-               
-                
                 try{
                     FileOutputStream fs = new FileOutputStream(new File("CheckBox.ser"));
                     ObjectOutputStream os = new ObjectOutputStream(fs);
@@ -336,10 +331,6 @@ public class BeatBox {
             }
             sequencer.stop();
             buildTrackAndStart();
-
-
-
-            
         }
     }
 
