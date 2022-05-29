@@ -25,14 +25,12 @@ public class BeatBox {
                                    "Cowbell", "Vibraslap", "Low-mid Tom", "High Agogo", "Open Hi Conga"};
     int [] instruments = {35,42,46,38,49,39,50,60,70,72,64,56,58,47,67,63};
     public static void main(String[] args) {
-        // TODO code application logic 
         new BeatBox().buildGUI();
        
     }
 
     private void buildGUI() {
-        //To change body of generated methods, choose Tools | Templates.
-        theFrame = new JFrame("Cyber BeatBox");
+        theFrame = new JFrame("Better BeatBox");
         theFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         BorderLayout layout = new BorderLayout();
         JPanel background = new JPanel(layout);
@@ -115,7 +113,6 @@ public class BeatBox {
     }
 
     public void setUpMidi() {
-        //To change body of generated methods, choose Tools | Templates.
         try{
             sequencer = MidiSystem.getSequencer();
             sequencer.open();
@@ -128,7 +125,6 @@ public class BeatBox {
     }
 
     public void setList() {
-        //To change body of generated methods, choose Tools | Templates.
         listdata.add(0,"Grand (256)");
         listdata.add(1, "1 Line");
         listdata.add(2, "2 Line");
@@ -382,75 +378,64 @@ public class BeatBox {
        }
     }
 
-        public void buildTrackAndStart() {
-            //To change body of generated methods, choose Tools | Templates.
-            int[] trackList = null;
+    public void buildTrackAndStart() {
+        int[] trackList = null;
+        
+        sequence.deleteTrack(track);
+        track = sequence.createTrack();
+        
+        
+        for(int i = 0; i<16;i++){
+            trackList = new int[16];
             
-            sequence.deleteTrack(track);
-            track = sequence.createTrack();
+            int key = instruments[i];
             
-            
-            for(int i = 0; i<16;i++){
-                trackList = new int[16];
-                
-                int key = instruments[i];
-                
-                for(int j = 0;j<16;j++){
-                    JCheckBox jc = (JCheckBox) checkboxList.get(j + (16*i));
-                    if(jc.isSelected()){
-                        trackList[j] = key;
-                    }
-                    else{
-                        trackList[j] = 0;
-                    }
-                    
+            for(int j = 0;j<16;j++){
+                JCheckBox jc = (JCheckBox) checkboxList.get(j + (16*i));
+                if(jc.isSelected()){
+                    trackList[j] = key;
+                }
+                else{
+                    trackList[j] = 0;
                 }
                 
-                
-                makeTracks(trackList);
-                track.add(makeEvent(176,1,127,0,16));
             }
             
-            track.add(makeEvent(192,9,1,0,15));
-            try{
-                sequencer.setSequence(sequence);
-                sequencer.setLoopCount(sequencer.LOOP_CONTINUOUSLY);
-                sequencer.start();
-                sequencer.setTempoInBPM(120);
-            } catch (Exception ex) {
-               ex.printStackTrace();
-           }
+            
+            makeTracks(trackList);
+            track.add(makeEvent(176,1,127,0,16));
         }
+        
+        track.add(makeEvent(192,9,1,0,15));
+        try{
+            sequencer.setSequence(sequence);
+            sequencer.setLoopCount(sequencer.LOOP_CONTINUOUSLY);
+            sequencer.start();
+            sequencer.setTempoInBPM(120);
+        } catch (Exception ex) {
+           ex.printStackTrace();
+       }
+    }
 
-        public void makeTracks(int[] list) {
-            //To change body of generated methods, choose Tools | Templates.
-            for(int i = 0;i<16;i++){
-                int key = list[i];
-                if (key != 0){
-                    track.add(makeEvent(144,9,key,100,i));
-                    track.add(makeEvent(128,9,key,100,i+1));
-                }
+    public void makeTracks(int[] list) {
+        for(int i = 0;i<16;i++){
+            int key = list[i];
+            if (key != 0){
+                track.add(makeEvent(144,9,key,100,i));
+                track.add(makeEvent(128,9,key,100,i+1));
             }
         }
+    }
 
-        public MidiEvent makeEvent(int comd, int chan, int one, int two, int tick) {
-           
-             //To change body of generated methods, choose Tools | Templates. 
-             MidiEvent event = null;
-             try{
-                 ShortMessage a = new ShortMessage();
-                 a.setMessage(comd,chan,one,two);
-                 event = new MidiEvent(a, tick);
-             } catch (Exception ex) {
-               ex.printStackTrace();
-           }
-           return event;
-        }
-    
-        
-
-        
-    
-    
-    
+    public MidiEvent makeEvent(int comd, int chan, int one, int two, int tick) {
+         MidiEvent event = null;
+         try{
+             ShortMessage a = new ShortMessage();
+             a.setMessage(comd,chan,one,two);
+             event = new MidiEvent(a, tick);
+         } catch (Exception ex) {
+           ex.printStackTrace();
+       }
+       return event;
+    }   
 }
